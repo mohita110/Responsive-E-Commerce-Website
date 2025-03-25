@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase - Footwear Collection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Color Palette - Brightened */
+        :root {
+            --primary: #9c6f44;       /* Warm caramel */
+            --secondary: #f8f3ee;     /* Soft ivory */
+            --dark: #2d3436;         /* Charcoal */
+            --light: #fefbf8;        /* Bright white */
+            --accent: #e17055;       /* Coral */
+            --text: #3e2723;         /* Dark brown */
+            --text-light: #7b6c63;   /* Warm gray */
+            --highlight: #fab1a0;    /* Soft peach */
+            --cta: #e67e22;         /* Bright orange */
+            --success: #27ae60;     /* Emerald green */
+            --danger: #e74c3c;      /* Red for liked items */
+        }
+        
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Header Styles (Same as before) */
+        header {
+            background-color: white;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .main-header {
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .header-icon {
+            position: relative;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+            color: var(--dark);
+        }
+        
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: var(--dark);
+            color: var(--secondary);
+        }
+        
+        .main-menu {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .main-menu li {
+            list-style: none;
+            position: relative;
+        }
+        
+        .main-menu li a {
+            display: block;
+            padding: 18px 25px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            color: var(--secondary);
+        }
+        
+        /* Footwear Page Specific Styles */
+        .footwear-header {
+            background: linear-gradient(rgba(45, 52, 54, 0.7), rgba(45, 52, 54, 0.7)), url('https://images.unsplash.com/photo-1460353581641-37baddab0fa2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80') no-repeat center center/cover;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .footwear-header h1 {
+            font-size: 4rem;
+            font-weight: 700;
+        }
+        
+        .gender-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .gender-tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .gender-tab.active {
+            border-bottom: 3px solid var(--accent);
+            color: var(--primary);
+        }
+        
+        .gender-tab:hover {
+            color: var(--primary);
+        }
+        
+        .gender-content {
+            display: none;
+        }
+        
+        .gender-content.active {
+            display: block;
+        }
+        
+        .footwear-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+        
+        .footwear-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            border: 1px solid var(--secondary);
+        }
+        
+        .footwear-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-color: var(--highlight);
+        }
+        
+        .footwear-img-container {
+            height: 350px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .footwear-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .footwear-card:hover .footwear-img {
+            transform: scale(1.05);
+        }
+        
+        /* Like button */
+        .like-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            color: var(--dark);
+            cursor: pointer;
+            z-index: 2;
+        }
+        
+        .like-btn:hover {
+            color: var(--danger);
+        }
+        
+        .like-btn.liked {
+            color: var(--danger);
+        }
+        
+        .footwear-details {
+            padding: 20px;
+        }
+        
+        .footwear-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+        
+        .footwear-category {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+        
+        .footwear-price {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-top: 15px;
+        }
+        
+        .footwear-price del {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-left: 5px;
+        }
+        
+        .add-to-cart {
+            background-color: var(--cta);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .add-to-cart:hover {
+            background-color: var(--accent);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Cart Notification */
+        .cart-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .cart-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Like Notification */
+        .like-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: var(--danger);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .like-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .footwear-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .gender-tabs {
+                flex-direction: column;
+                align-items: center;
+                border-bottom: none;
+            }
+            
+            .gender-tab {
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="main-header">
+                <div class="logo">
+                    <a href="index.html">
+                        <h1>ShopEase</h1>
+                    </a>
+                </div>
+                
+                <div class="header-icons">
+                    <a href="liked.html" class="header-icon" id="wishlist-icon">
+                        <i class="far fa-heart"></i>
+                        <span class="badge" id="wishlist-count">0</span>
+                    </a>
+                    <a href="cart.html" class="header-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </a>
+                    <a href="#" class="header-icon">
+                        <i class="far fa-user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <nav>
+            <div class="container">
+                <ul class="main-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="clothing.html">Clothing</a></li>
+                    <li><a href="footwear.html" class="active">Footwear</a></li>
+                    <li><a href="watches.html">Watches</a></li>
+                    <li><a href="cosmetics.html">Cosmetics</a></li>
+                    <li><a href="perfumes.html">Perfumes</a></li>
+                    <li><a href="sale.html">Sale</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Footwear Header -->
+    <section class="footwear-header">
+        <div class="container">
+            <h1>Our Footwear Collection</h1>
+        </div>
+    </section>
+    
+    <!-- Gender Tabs -->
+    <div class="container">
+        <div class="gender-tabs">
+            <div class="gender-tab active" data-tab="women">Women's Footwear</div>
+            <div class="gender-tab" data-tab="men">Men's Footwear</div>
+        </div>
+        
+        <!-- Women's Footwear -->
+        <div class="gender-content active" id="women-content">
+            <div class="footwear-grid">
+                <!-- Product 1 -->
+                <div class="footwear-card" data-id="1" data-gender="women">
+                    <div class="footwear-img-container">
+                        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1112&q=80" alt="Women's Sneakers" class="footwear-img">
+                        <button class="like-btn" data-id="1"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="footwear-details">
+                        <h3 class="footwear-title">White Running Sneakers</h3>
+                        <p class="footwear-category">Sneakers</p>
+                        <div class="footwear-price">$79.99 <del>$99.99</del></div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="footwear-card" data-id="2" data-gender="women">
+                    <div class="footwear-img-container">
+                        <img src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=765&q=80" alt="Women's Heels" class="footwear-img">
+                        <button class="like-btn" data-id="2"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="footwear-details">
+                        <h3 class="footwear-title">Elegant High Heels</h3>
+                        <p class="footwear-category">Heels</p>
+                        <div class="footwear-price">$89.99</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="footwear-card" data-id="3" data-gender="women">
+                    <div class="footwear-img-container">
+                        <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=698&q=80" alt="Women's Sandals" class="footwear-img">
+                        <button class="like-btn" data-id="3"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="footwear-details">
+                        <h3 class="footwear-title">Summer Leather Sandals</h3>
+                        <p class="footwear-category">Sandals</p>
+                        <div class="footwear-price">$49.99 <del>$59.99</del></div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="footwear-card" data-id="4" data-gender="women">
+                    <div class="footwear-img-container">
+                        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Women's Boots" class="footwear-img">
+                        <button class="like-btn" data-id="4"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="footwear-details">
+                        <h3 class="footwear-title">Ankle Boots</h3>
+                        <p class="footwear-category">Boots</p>
+                        <div class="footwear-price">$109.99</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Men's Footwear -->
+        <div class="gender-content" id="men-content">
+            <div class="footwear-grid">
+                <!-- Product 1 -->
+                <div class="footwear-card" data-id="5" data-gender="men">
+                    <div class="footwear-img-container">
+                        <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80" alt="Men's Sneakers" class="footwear-img">
+                        <button class="like-btn" data-id="5"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="footwear-details">
+                        <h3 class="footwear-title">Classic White Sneakers</h3>
+                        <p class="footwear-category">Sneakers</p>
+                        <div class="footwear-price">$89.99</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="footwear-card" data-id="6" data-gender="men">
+                    <div class="footwear-img-container">
+                        <img src="https://images.unsplash.com/photo-1595341888016-a392ef81b7de?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1479&q=80" alt="Men's Loafers" class="footwear-img">
+                        <button class="like-btn" data-id="6"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="footwear-details">
+                        <h3 class="footwear-title">Leather Loafers</h3>
+                        <p class="footwear-category">Casual</p>
+                        <div class="footwear-price">$99.99 <del>$119.99</del></div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="footwear-card" data-id="7" data-gender="men">
+                    <div class="footwear-img-container">
+                        <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80" alt="Men's Boots" class="footwear-img">
+                        <button class="like-btn" data-id="7"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="footwear-details">
+                        <h3 class="footwear-title">Leather Chelsea Boots</h3>
+                        <p class="footwear-category">Boots</p>
+                        <div class="footwear-price">$129.99</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="footwear-card" data-id="8" data-gender="men">
+                    <div class="footwear-img-container">
+                        <img src="https://images.unsplash.com/photo-1463100099107-aa0980c362e6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Men's Sandals" class="footwear-img">
+                        <button class="like-btn" data-id="8"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="footwear-details">
+                        <h3 class="footwear-title">Outdoor Sandals</h3>
+                        <p class="footwear-category">Sandals</p>
+                        <div class="footwear-price">$59.99 <del>$69.99</del></div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cart Notification -->
+    <div class="cart-notification" id="cart-notification">
+        Item added to cart!
+    </div>
+    
+    <!-- Like Notification -->
+    <div class="like-notification" id="like-notification">
+        Added to wishlist!
+    </div>
+    
+    <script>
+        // Tab Switching Functionality
+        const tabs = document.querySelectorAll('.gender-tab');
+        const contents = document.querySelectorAll('.gender-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-content`).classList.add('active');
+            });
+        });
+        
+        // Cart Functionality
+        let cartCount = 0;
+        const cartButtons = document.querySelectorAll('.add-to-cart');
+        const cartCountElement = document.getElementById('cart-count');
+        const cartNotification = document.getElementById('cart-notification');
+        
+        cartButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const card = button.closest('.footwear-card');
+                const id = card.getAttribute('data-id');
+                const title = card.querySelector('.footwear-title').textContent;
+                const price = card.querySelector('.footwear-price').textContent.split(' ')[0];
+                const gender = card.getAttribute('data-gender');
+                
+                // In a real app, you would add this to your cart data structure
+                console.log(`Added to cart: ${title} ($${price}) - ${gender}'s footwear`);
+                
+                // Update cart count
+                cartCount++;
+                cartCountElement.textContent = cartCount;
+                
+                // Show notification
+                cartNotification.classList.add('show');
+                setTimeout(() => {
+                    cartNotification.classList.remove('show');
+                }, 3000);
+            });
+        });
+        
+        // Like Functionality
+        let likedItems = 0;
+        const likeButtons = document.querySelectorAll('.like-btn');
+        const wishlistCount = document.getElementById('wishlist-count');
+        const likeNotification = document.getElementById('like-notification');
+        
+        likeButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const icon = button.querySelector('i');
+                const id = button.getAttribute('data-id');
+                
+                // Toggle liked state
+                button.classList.toggle('liked');
+                
+                if (button.classList.contains('liked')) {
+                    // Add to wishlist
+                    likedItems++;
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    
+                    // Show notification
+                    likeNotification.textContent = "Added to wishlist!";
+                    likeNotification.classList.add('show');
+                    setTimeout(() => {
+                        likeNotification.classList.remove('show');
+                    }, 3000);
+                } else {
+                    // Remove from wishlist
+                    likedItems--;
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    
+                    // Show notification
+                    likeNotification.textContent = "Removed from wishlist!";
+                    likeNotification.classList.add('show');
+                    setTimeout(() => {
+                        likeNotification.classList.remove('show');
+                    }, 3000);
+                }
+                
+                // Update wishlist count
+                wishlistCount.textContent = likedItems;
+                
+                // In a real app, you would update your wishlist data structure
+                console.log(`Item ${id} ${button.classList.contains('liked') ? 'added to' : 'removed from'} wishlist`);
+            });
+        });
+    </script>
+</body>
+</html>

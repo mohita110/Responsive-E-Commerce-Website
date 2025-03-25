@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase - Luxury Watches Collection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Color Palette - Brightened */
+        :root {
+            --primary: #9c6f44;       /* Warm caramel */
+            --secondary: #f8f3ee;     /* Soft ivory */
+            --dark: #2d3436;         /* Charcoal */
+            --light: #fefbf8;        /* Bright white */
+            --accent: #e17055;       /* Coral */
+            --text: #3e2723;         /* Dark brown */
+            --text-light: #7b6c63;   /* Warm gray */
+            --highlight: #fab1a0;    /* Soft peach */
+            --cta: #e67e22;         /* Bright orange */
+            --success: #27ae60;     /* Emerald green */
+            --danger: #e74c3c;      /* Red for liked items */
+        }
+        
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .main-header {
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .header-icon {
+            position: relative;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+            color: var(--dark);
+        }
+        
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: var(--dark);
+            color: var(--secondary);
+        }
+        
+        .main-menu {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .main-menu li {
+            list-style: none;
+            position: relative;
+        }
+        
+        .main-menu li a {
+            display: block;
+            padding: 18px 25px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            color: var(--secondary);
+        }
+        
+        /* Watches Page Specific Styles */
+        .watches-header {
+            background: linear-gradient(rgba(45, 52, 54, 0.7), rgba(45, 52, 54, 0.7)), url('https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .watches-header h1 {
+            font-size: 4rem;
+            font-weight: 700;
+        }
+        
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .category-tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .category-tab.active {
+            border-bottom: 3px solid var(--accent);
+            color: var(--primary);
+        }
+        
+        .category-tab:hover {
+            color: var(--primary);
+        }
+        
+        .category-content {
+            display: none;
+        }
+        
+        .category-content.active {
+            display: block;
+        }
+        
+        .watches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+        
+        .watch-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            border: 1px solid var(--secondary);
+        }
+        
+        .watch-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-color: var(--highlight);
+        }
+        
+        .watch-img-container {
+            height: 350px;
+            overflow: hidden;
+            position: relative;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .watch-img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            transition: transform 0.5s;
+        }
+        
+        .watch-card:hover .watch-img {
+            transform: scale(1.05);
+        }
+        
+        /* Like button */
+        .like-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            color: var(--dark);
+            cursor: pointer;
+            z-index: 2;
+        }
+        
+        .like-btn:hover {
+            color: var(--danger);
+        }
+        
+        .like-btn.liked {
+            color: var(--danger);
+        }
+        
+        .watch-details {
+            padding: 20px;
+        }
+        
+        .watch-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+        
+        .watch-brand {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .watch-features {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .feature-tag {
+            background-color: var(--secondary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        
+        .watch-price {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-top: 15px;
+        }
+        
+        .watch-price del {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-left: 5px;
+        }
+        
+        .add-to-cart {
+            background-color: var(--cta);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .add-to-cart:hover {
+            background-color: var(--accent);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Cart Notification */
+        .cart-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .cart-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Like Notification */
+        .like-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: var(--danger);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .like-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .watches-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .category-tabs {
+                flex-direction: column;
+                align-items: center;
+                border-bottom: none;
+            }
+            
+            .category-tab {
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid #ddd;
+            }
+            
+            .watch-img-container {
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="main-header">
+                <div class="logo">
+                    <a href="index.html">
+                        <h1>ShopEase</h1>
+                    </a>
+                </div>
+                
+                <div class="header-icons">
+                    <a href="liked.html" class="header-icon" id="wishlist-icon">
+                        <i class="far fa-heart"></i>
+                        <span class="badge" id="wishlist-count">0</span>
+                    </a>
+                    <a href="cart.html" class="header-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </a>
+                    <a href="#" class="header-icon">
+                        <i class="far fa-user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <nav>
+            <div class="container">
+                <ul class="main-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="clothing.html">Clothing</a></li>
+                    <li><a href="footwear.html">Footwear</a></li>
+                    <li><a href="watches.html" class="active">Watches</a></li>
+                    <li><a href="cosmetics.html">Cosmetics</a></li>
+                    <li><a href="perfumes.html">Perfumes</a></li>
+                    <li><a href="sale.html">Sale</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Watches Header -->
+    <section class="watches-header">
+        <div class="container">
+            <h1>Luxury Watches Collection</h1>
+        </div>
+    </section>
+    
+    <!-- Category Tabs -->
+    <div class="container">
+        <div class="category-tabs">
+            <div class="category-tab active" data-tab="mens">Men's Watches</div>
+            <div class="category-tab" data-tab="womens">Women's Watches</div>
+            <div class="category-tab" data-tab="smart">Smart Watches</div>
+        </div>
+        
+        <!-- Men's Watches -->
+        <div class="category-content active" id="mens-content">
+            <div class="watches-grid">
+                <!-- Watch 1 -->
+                <div class="watch-card" data-id="1" data-category="mens">
+                    <div class="watch-img-container">
+                        <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Men's Luxury Watch" class="watch-img">
+                        <button class="like-btn" data-id="1"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="watch-details">
+                        <h3 class="watch-title">Chronograph Professional</h3>
+                        <p class="watch-brand">Rolex</p>
+                        <div class="watch-features">
+                            <span class="feature-tag">Automatic</span>
+                            <span class="feature-tag">Waterproof</span>
+                            <span class="feature-tag">Stainless Steel</span>
+                        </div>
+                        <div class="watch-price">$2,499.99 <del>$2,799.99</del></div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Watch 2 -->
+                <div class="watch-card" data-id="2" data-category="mens">
+                    <div class="watch-img-container">
+                        <img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" alt="Men's Diver Watch" class="watch-img">
+                        <button class="like-btn" data-id="2"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="watch-details">
+                        <h3 class="watch-title">Diver Professional 300M</h3>
+                        <p class="watch-brand">Omega</p>
+                        <div class="watch-features">
+                            <span class="feature-tag">Automatic</span>
+                            <span class="feature-tag">300M Water Resistant</span>
+                            <span class="feature-tag">Ceramic Bezel</span>
+                        </div>
+                        <div class="watch-price">$3,199.99</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Watch 3 -->
+                <div class="watch-card" data-id="3" data-category="mens">
+                    <div class="watch-img-container">
+                        <img src="https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Men's Classic Watch" class="watch-img">
+                        <button class="like-btn" data-id="3"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="watch-details">
+                        <h3 class="watch-title">Classic Heritage</h3>
+                        <p class="watch-brand">Patek Philippe</p>
+                        <div class="watch-features">
+                            <span class="feature-tag">Manual Wind</span>
+                            <span class="feature-tag">Sapphire Crystal</span>
+                            <span class="feature-tag">Alligator Strap</span>
+                        </div>
+                        <div class="watch-price">$4,899.99 <del>$5,299.99</del></div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Watch 4 -->
+                <div class="watch-card" data-id="4" data-category="mens">
+                    <div class="watch-img-container">
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1399&q=80" alt="Men's Sport Watch" class="watch-img">
+                        <button class="like-btn" data-id="4"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="watch-details">
+                        <h3 class="watch-title">Sport Chrono XL</h3>
+                        <p class="watch-brand">Tag Heuer</p>
+                        <div class="watch-features">
+                            <span class="feature-tag">Quartz</span>
+                            <span class="feature-tag">200M Water Resistant</span>
+                            <span class="feature-tag">Tachymeter</span>
+                        </div>
+                        <div class="watch-price">$1,599.99</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Women's Watches -->
+        <div class="category-content" id="womens-content">
+            <div class="watches-grid">
+                <!-- Watch 1 -->
+                <div class="watch-card" data-id="5" data-category="womens">
+                    <div class="watch-img-container">
+                        <img src="https://images.unsplash.com/photo-1539874754764-5a96559165b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Women's Diamond Watch" class="watch-img">
+                        <button class="like-btn" data-id="5"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="watch-details">
+                        <h3 class="watch-title">Diamond Elegance</h3>
+                        <p class="watch-brand">Cartier</p>
+                        <div class="watch-features">
+                            <span class="feature-tag">Quartz</span>
+                            <span class="feature-tag">Diamond Bezel</span>
+                            <span class="feature-tag">Mother-of-Pearl</span>
+                        </div>
+                        <div class="watch-price">$3,799.99</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Watch 2 -->
+                <div class="watch-card" data-id="6" data-category="womens">
+                    <div class="watch-img-container">
+                        <img src="https://images.unsplash.com/photo-1548169874-53e85f753f1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1528&q=80" alt="Women's Classic Watch" class="watch-img">
+                        <button class="like-btn" data-id="6"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="watch-details">
+                        <h3 class="watch-title">Classic Lady</h3>
+                        <p class="watch-brand">Longines</p>
+                        <div class="watch-features">
+                            <span class="feature-tag">Automatic</span>
+                            <span class="feature-tag">Rose Gold</span>
+                            <span class="feature-tag">Alligator Strap</span>
+                        </div>
+                        <div class="watch-price">$2,199.99 <del>$2,499.99</del></div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Watch 3 -->
+                <div class="watch-card" data-id="7" data-category="womens">
+                    <div class="watch-img-container">
+                        <img src="https://images.unsplash.com/photo-1609587312205-ce0c5b27fe11?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Women's Minimalist Watch" class="watch-img">
+                        <button class="like-btn" data-id="7"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="watch-details">
+                        <h3 class="watch-title">Minimalist Rose</h3>
+                        <p class="watch-brand">Daniel Wellington</p>
+                        <div class="watch-features">
+                            <span class="feature-tag">Quartz</span>
+                            <span class="feature-tag">Rose Gold</span>
+                            <span class="feature-tag">Mesh Strap</span>
+                        </div>
+                        <div class="watch-price">$199.99</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Watch 4 -->
+                <div class="watch-card" data-id="8" data-category="womens">
+                    <div class="watch-img-container">
+                        <img src="https://images.unsplash.com/photo-1611591437281-4608be122683?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Women's Ceramic Watch" class="watch-img">
+                        <button class="like-btn" data-id="8"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="watch-details">
+                        <h3 class="watch-title">Ceramic Chrono</h3>
+                        <p class="watch-brand">Chanel</p>
+                        <div class="watch-features">
+                            <span class="feature-tag">Quartz</span>
+                            <span class="feature-tag">Ceramic Case</span>
+                            <span class="feature-tag">Diamond Markers</span>
+                        </div>
+                        <div class="watch-price">$4,299.99</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Smart Watches -->
+        <div class="category-content" id="smart-content">
+            <div class="watches-grid">
+                <!-- Watch 1 -->
+                <div class="watch-card" data-id="9" data-category="smart">
+                    <div class="watch-img-container">
+                        <img src="https://images.unsplash.com/photo-1558379850-823f103f866a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Smart Watch Pro" class="watch-img">
+                        <button class="like-btn" data-id="9"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="watch-details">
+                        <h3 class="watch-title">Smart Watch Pro</h3>
+                        <p class="watch-brand">Apple</p>
+                        <div class="watch-features">
+                            <span class="feature-tag">iOS/Android</span>
+                            <span class="feature-tag">Heart Rate</span>
+                            <span class="feature-tag">GPS</span>
+                        </div>
+                        <div class="watch-price">$399.99 <del>$429.99</del></div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Watch 2 -->
+                <div class="watch-card" data-id="10" data-category="smart">
+                    <div class="watch-img-container">
+                        <img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80" alt="Fitness Tracker" class="watch-img">
+                        <button class="like-btn" data-id="10"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="watch-details">
+                        <h3 class="watch-title">Fitness Tracker Plus</h3>
+                        <p class="watch-brand">Samsung</p>
+                        <div class="watch-features">
+                            <span class="feature-tag">Android</span>
+                            <span class="feature-tag">Sleep Tracking</span>
+                            <span class="feature-tag">Waterproof</span>
+                        </div>
+                        <div class="watch-price">$249.99</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Watch 3 -->
+                <div class="watch-card" data-id="11" data-category="smart">
+                    <div class="watch-img-container">
+                        <img src="https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1528&q=80" alt="Hybrid Smartwatch" class="watch-img">
+                        <button class="like-btn" data-id="11"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="watch-details">
+                        <h3 class="watch-title">Hybrid Chronograph</h3>
+                        <p class="watch-brand">Fossil</p>
+                        <div class="watch-features">
+                            <span class="feature-tag">iOS/Android</span>
+                            <span class="feature-tag">Activity Tracking</span>
+                            <span class="feature-tag">Analog-Digital</span>
+                        </div>
+                        <div class="watch-price">$179.99 <del>$199.99</del></div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Watch 4 -->
+                <div class="watch-card" data-id="12" data-category="smart">
+                    <div class="watch-img-container">
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1399&q=80" alt="Luxury Smartwatch" class="watch-img">
+                        <button class="like-btn" data-id="12"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="watch-details">
+                        <h3 class="watch-title">Luxury Edition</h3>
+                        <p class="watch-brand">Tag Heuer</p>
+                        <div class="watch-features">
+                            <span class="feature-tag">iOS/Android</span>
+                            <span class="feature-tag">Premium Materials</span>
+                            <span class="feature-tag">Fitness Tracking</span>
+                        </div>
+                        <div class="watch-price">$1,799.99</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cart Notification -->
+    <div class="cart-notification" id="cart-notification">
+        Watch added to cart!
+    </div>
+    
+    <!-- Like Notification -->
+    <div class="like-notification" id="like-notification">
+        Added to wishlist!
+    </div>
+    
+    <script>
+        // Tab Switching Functionality
+        const tabs = document.querySelectorAll('.category-tab');
+        const contents = document.querySelectorAll('.category-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-content`).classList.add('active');
+            });
+        });
+        
+        // Cart Functionality
+        let cartCount = 0;
+        const cartButtons = document.querySelectorAll('.add-to-cart');
+        const cartCountElement = document.getElementById('cart-count');
+        const cartNotification = document.getElementById('cart-notification');
+        
+        cartButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const card = button.closest('.watch-card');
+                const id = card.getAttribute('data-id');
+                const title = card.querySelector('.watch-title').textContent;
+                const price = card.querySelector('.watch-price').textContent.split(' ')[0];
+                const brand = card.querySelector('.watch-brand').textContent;
+                
+                // In a real app, you would add this to your cart data structure
+                console.log(`Added to cart: ${brand} ${title} ($${price})`);
+                
+                // Update cart count
+                cartCount++;
+                cartCountElement.textContent = cartCount;
+                
+                // Show notification
+                cartNotification.textContent = `${brand} ${title} added to cart!`;
+                cartNotification.classList.add('show');
+                setTimeout(() => {
+                    cartNotification.classList.remove('show');
+                }, 3000);
+            });
+        });
+        
+        // Like Functionality
+        let likedItems = 0;
+        const likeButtons = document.querySelectorAll('.like-btn');
+        const wishlistCount = document.getElementById('wishlist-count');
+        const likeNotification = document.getElementById('like-notification');
+        
+        likeButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const icon = button.querySelector('i');
+                const id = button.getAttribute('data-id');
+                const card = button.closest('.watch-card');
+                const title = card.querySelector('.watch-title').textContent;
+                const brand = card.querySelector('.watch-brand').textContent;
+                
+                // Toggle liked state
+                button.classList.toggle('liked');
+                
+                if (button.classList.contains('liked')) {
+                    // Add to wishlist
+                    likedItems++;
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    
+                    // Show notification
+                    likeNotification.textContent = `${brand} ${title} added to wishlist!`;
+                    likeNotification.classList.add('show');
+                    setTimeout(() => {
+                        likeNotification.classList.remove('show');
+                    }, 3000);
+                } else {
+                    // Remove from wishlist
+                    likedItems--;
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    
+                    // Show notification
+                    likeNotification.textContent = `${brand} ${title} removed from wishlist!`;
+                    likeNotification.classList.add('show');
+                    setTimeout(() => {
+                        likeNotification.classList.remove('show');
+                    }, 3000);
+                }
+                
+                // Update wishlist count
+                wishlistCount.textContent = likedItems;
+                
+                // In a real app, you would update your wishlist data structure
+                console.log(`Watch ${id} ${button.classList.contains('liked') ? 'added to' : 'removed from'} wishlist`);
+            });
+        });
+    </script>
+</body>
+</html>

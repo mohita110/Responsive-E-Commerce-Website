@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase - Luxury Perfumes Collection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Color Palette - Perfume Edition */
+        :root {
+            --primary: #6d4c41;       /* Warm taupe */
+            --secondary: #f5f5f5;     /* Light gray */
+            --dark: #263238;         /* Dark blue-gray */
+            --light: #fafafa;        /* Off-white */
+            --accent: #8d6e63;       /* Muted clay */
+            --text: #3e2723;         /* Dark brown */
+            --text-light: #795548;   /* Warm brown */
+            --highlight: #d7ccc8;    /* Soft clay */
+            --cta: #a1887f;         /* Muted brown */
+            --success: #388e3c;     /* Deep green */
+            --danger: #d32f2f;      /* Deep red */
+            --perfume: #7b1fa2;     /* Deep purple for perfume accents */
+        }
+        
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .main-header {
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--perfume));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .header-icon {
+            position: relative;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+            color: var(--dark);
+        }
+        
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--perfume);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: var(--dark);
+            color: var(--secondary);
+        }
+        
+        .main-menu {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .main-menu li {
+            list-style: none;
+            position: relative;
+        }
+        
+        .main-menu li a {
+            display: block;
+            padding: 18px 25px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            color: var(--secondary);
+        }
+        
+        /* Perfumes Page Specific Styles */
+        .perfumes-header {
+            background: linear-gradient(rgba(38, 50, 56, 0.7), rgba(38, 50, 56, 0.7)), url('https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80') no-repeat center center/cover;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .perfumes-header h1 {
+            font-size: 4rem;
+            font-weight: 700;
+        }
+        
+        .gender-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .gender-tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .gender-tab.active {
+            border-bottom: 3px solid var(--perfume);
+            color: var(--primary);
+        }
+        
+        .gender-tab:hover {
+            color: var(--primary);
+        }
+        
+        .gender-content {
+            display: none;
+        }
+        
+        .gender-content.active {
+            display: block;
+        }
+        
+        .perfumes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+        
+        .perfume-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            border: 1px solid var(--secondary);
+        }
+        
+        .perfume-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-color: var(--highlight);
+        }
+        
+        .perfume-img-container {
+            height: 350px;
+            overflow: hidden;
+            position: relative;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .perfume-img {
+            max-width: 60%;
+            max-height: 60%;
+            object-fit: contain;
+            transition: transform 0.5s;
+        }
+        
+        .perfume-card:hover .perfume-img {
+            transform: scale(1.05);
+        }
+        
+        /* Like button */
+        .like-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            color: var(--dark);
+            cursor: pointer;
+            z-index: 2;
+        }
+        
+        .like-btn:hover {
+            color: var(--danger);
+        }
+        
+        .like-btn.liked {
+            color: var(--danger);
+        }
+        
+        .perfume-details {
+            padding: 20px;
+        }
+        
+        .perfume-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+        
+        .perfume-brand {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .perfume-notes {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .note-tag {
+            background-color: var(--secondary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        
+        .perfume-size {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        
+        .perfume-price {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-top: 10px;
+        }
+        
+        .perfume-price del {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-left: 5px;
+        }
+        
+        .add-to-cart {
+            background-color: var(--perfume);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .add-to-cart:hover {
+            background-color: var(--accent);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Cart Notification */
+        .cart-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .cart-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Like Notification */
+        .like-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: var(--danger);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .like-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .perfumes-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .gender-tabs {
+                flex-direction: column;
+                align-items: center;
+                border-bottom: none;
+            }
+            
+            .gender-tab {
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid #ddd;
+            }
+            
+            .perfume-img-container {
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="main-header">
+                <div class="logo">
+                    <a href="index.html">
+                        <h1>ShopEase</h1>
+                    </a>
+                </div>
+                
+                <div class="header-icons">
+                    <a href="liked.html" class="header-icon" id="wishlist-icon">
+                        <i class="far fa-heart"></i>
+                        <span class="badge" id="wishlist-count">0</span>
+                    </a>
+                    <a href="cart.html" class="header-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </a>
+                    <a href="#" class="header-icon">
+                        <i class="far fa-user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <nav>
+            <div class="container">
+                <ul class="main-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="clothing.html">Clothing</a></li>
+                    <li><a href="footwear.html">Footwear</a></li>
+                    <li><a href="watches.html">Watches</a></li>
+                    <li><a href="cosmetics.html">Cosmetics</a></li>
+                    <li><a href="perfumes.html" class="active">Perfumes</a></li>
+                    <li><a href="sale.html">Sale</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Perfumes Header -->
+    <section class="perfumes-header">
+        <div class="container">
+            <h1>Luxury Perfumes Collection</h1>
+        </div>
+    </section>
+    
+    <!-- Gender Tabs -->
+    <div class="container">
+        <div class="gender-tabs">
+            <div class="gender-tab active" data-tab="women">Women's Perfumes</div>
+            <div class="gender-tab" data-tab="men">Men's Colognes</div>
+            <div class="gender-tab" data-tab="unisex">Unisex Scents</div>
+        </div>
+        
+        <!-- Women's Perfumes -->
+        <div class="gender-content active" id="women-content">
+            <div class="perfumes-grid">
+                <!-- Perfume 1 -->
+                <div class="perfume-card" data-id="1" data-gender="women">
+                    <div class="perfume-img-container">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Floral Perfume" class="perfume-img">
+                        <button class="like-btn" data-id="1"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="perfume-details">
+                        <h3 class="perfume-title">J'adore Eau de Parfum</h3>
+                        <p class="perfume-brand">Dior</p>
+                        <div class="perfume-notes">
+                            <span class="note-tag">Floral</span>
+                            <span class="note-tag">Fruity</span>
+                            <span class="note-tag">Musky</span>
+                        </div>
+                        <p class="perfume-size">100ml</p>
+                        <div class="perfume-price">$135.00</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Perfume 2 -->
+                <div class="perfume-card" data-id="2" data-gender="women">
+                    <div class="perfume-img-container">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Floral Perfume" class="perfume-img">
+                        <button class="like-btn" data-id="2"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="perfume-details">
+                        <h3 class="perfume-title">Chance Eau Tendre</h3>
+                        <p class="perfume-brand">Chanel</p>
+                        <div class="perfume-notes">
+                            <span class="note-tag">Floral</span>
+                            <span class="note-tag">Citrus</span>
+                            <span class="note-tag">Woody</span>
+                        </div>
+                        <p class="perfume-size">50ml</p>
+                        <div class="perfume-price">$120.00 <del>$135.00</del></div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Perfume 3 -->
+                <div class="perfume-card" data-id="3" data-gender="women">
+                    <div class="perfume-img-container">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Floral Perfume" class="perfume-img">
+                        <button class="like-btn" data-id="3"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="perfume-details">
+                        <h3 class="perfume-title">Black Opium</h3>
+                        <p class="perfume-brand">Yves Saint Laurent</p>
+                        <div class="perfume-notes">
+                            <span class="note-tag">Oriental</span>
+                            <span class="note-tag">Vanilla</span>
+                            <span class="note-tag">Coffee</span>
+                        </div>
+                        <p class="perfume-size">90ml</p>
+                        <div class="perfume-price">$110.00</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Perfume 4 -->
+                <div class="perfume-card" data-id="4" data-gender="women">
+                    <div class="perfume-img-container">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Floral Perfume" class="perfume-img">
+                        <button class="like-btn" data-id="4"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="perfume-details">
+                        <h3 class="perfume-title">Light Blue</h3>
+                        <p class="perfume-brand">Dolce & Gabbana</p>
+                        <div class="perfume-notes">
+                            <span class="note-tag">Citrus</span>
+                            <span class="note-tag">Floral</span>
+                            <span class="note-tag">Musky</span>
+                        </div>
+                        <p class="perfume-size">100ml</p>
+                        <div class="perfume-price">$95.00 <del>$110.00</del></div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Men's Colognes -->
+        <div class="gender-content" id="men-content">
+            <div class="perfumes-grid">
+                <!-- Cologne 1 -->
+                <div class="perfume-card" data-id="5" data-gender="men">
+                    <div class="perfume-img-container">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Men's Cologne" class="perfume-img">
+                        <button class="like-btn" data-id="5"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="perfume-details">
+                        <h3 class="perfume-title">Sauvage</h3>
+                        <p class="perfume-brand">Dior</p>
+                        <div class="perfume-notes">
+                            <span class="note-tag">Woody</span>
+                            <span class="note-tag">Spicy</span>
+                            <span class="note-tag">Amber</span>
+                        </div>
+                        <p class="perfume-size">100ml</p>
+                        <div class="perfume-price">$145.00</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Cologne 2 -->
+                <div class="perfume-card" data-id="6" data-gender="men">
+                    <div class="perfume-img-container">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Men's Cologne" class="perfume-img">
+                        <button class="like-btn" data-id="6"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="perfume-details">
+                        <h3 class="perfume-title">Bleu de Chanel</h3>
+                        <p class="perfume-brand">Chanel</p>
+                        <div class="perfume-notes">
+                            <span class="note-tag">Citrus</span>
+                            <span class="note-tag">Woody</span>
+                            <span class="note-tag">Amber</span>
+                        </div>
+                        <p class="perfume-size">50ml</p>
+                        <div class="perfume-price">$130.00</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Cologne 3 -->
+                <div class="perfume-card" data-id="7" data-gender="men">
+                    <div class="perfume-img-container">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Men's Cologne" class="perfume-img">
+                        <button class="like-btn" data-id="7"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="perfume-details">
+                        <h3 class="perfume-title">Acqua di Giò</h3>
+                        <p class="perfume-brand">Giorgio Armani</p>
+                        <div class="perfume-notes">
+                            <span class="note-tag">Aquatic</span>
+                            <span class="note-tag">Citrus</span>
+                            <span class="note-tag">Woody</span>
+                        </div>
+                        <p class="perfume-size">75ml</p>
+                        <div class="perfume-price">$115.00 <del>$130.00</del></div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Cologne 4 -->
+                <div class="perfume-card" data-id="8" data-gender="men">
+                    <div class="perfume-img-container">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Men's Cologne" class="perfume-img">
+                        <button class="like-btn" data-id="8"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="perfume-details">
+                        <h3 class="perfume-title">Terre d'Hermès</h3>
+                        <p class="perfume-brand">Hermès</p>
+                        <div class="perfume-notes">
+                            <span class="note-tag">Woody</span>
+                            <span class="note-tag">Spicy</span>
+                            <span class="note-tag">Mineral</span>
+                        </div>
+                        <p class="perfume-size">100ml</p>
+                        <div class="perfume-price">$125.00</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Unisex Scents -->
+        <div class="gender-content" id="unisex-content">
+            <div class="perfumes-grid">
+                <!-- Perfume 1 -->
+                <div class="perfume-card" data-id="9" data-gender="unisex">
+                    <div class="perfume-img-container">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Unisex Perfume" class="perfume-img">
+                        <button class="like-btn" data-id="9"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="perfume-details">
+                        <h3 class="perfume-title">Black Orchid</h3>
+                        <p class="perfume-brand">Tom Ford</p>
+                        <div class="perfume-notes">
+                            <span class="note-tag">Oriental</span>
+                            <span class="note-tag">Floral</span>
+                            <span class="note-tag">Vanilla</span>
+                        </div>
+                        <p class="perfume-size">50ml</p>
+                        <div class="perfume-price">$220.00</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Perfume 2 -->
+                <div class="perfume-card" data-id="10" data-gender="unisex">
+                    <div class="perfume-img-container">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Unisex Perfume" class="perfume-img">
+                        <button class="like-btn" data-id="10"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="perfume-details">
+                        <h3 class="perfume-title">Wood Sage & Sea Salt</h3>
+                        <p class="perfume-brand">Jo Malone</p>
+                        <div class="perfume-notes">
+                            <span class="note-tag">Woody</span>
+                            <span class="note-tag">Aromatic</span>
+                            <span class="note-tag">Salty</span>
+                        </div>
+                        <p class="perfume-size">100ml</p>
+                        <div class="perfume-price">$140.00 <del>$155.00</del></div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Perfume 3 -->
+                <div class="perfume-card" data-id="11" data-gender="unisex">
+                    <div class="perfume-img-container">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Unisex Perfume" class="perfume-img">
+                        <button class="like-btn" data-id="11"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="perfume-details">
+                        <h3 class="perfume-title">Santal 33</h3>
+                        <p class="perfume-brand">Le Labo</p>
+                        <div class="perfume-notes">
+                            <span class="note-tag">Woody</span>
+                            <span class="note-tag">Leather</span>
+                            <span class="note-tag">Musky</span>
+                        </div>
+                        <p class="perfume-size">50ml</p>
+                        <div class="perfume-price">$192.00</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Perfume 4 -->
+                <div class="perfume-card" data-id="12" data-gender="unisex">
+                    <div class="perfume-img-container">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Unisex Perfume" class="perfume-img">
+                        <button class="like-btn" data-id="12"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="perfume-details">
+                        <h3 class="perfume-title">Oud Wood</h3>
+                        <p class="perfume-brand">Tom Ford</p>
+                        <div class="perfume-notes">
+                            <span class="note-tag">Woody</span>
+                            <span class="note-tag">Spicy</span>
+                            <span class="note-tag">Vanilla</span>
+                        </div>
+                        <p class="perfume-size">50ml</p>
+                        <div class="perfume-price">$250.00</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cart Notification -->
+    <div class="cart-notification" id="cart-notification">
+        Item added to cart!
+    </div>
+    
+    <!-- Like Notification -->
+    <div class="like-notification" id="like-notification">
+        Added to wishlist!
+    </div>
+    
+    <script>
+        // Tab Switching Functionality
+        const tabs = document.querySelectorAll('.gender-tab');
+        const contents = document.querySelectorAll('.gender-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-content`).classList.add('active');
+            });
+        });
+        
+        // Cart Functionality
+        let cartCount = 0;
+        const cartButtons = document.querySelectorAll('.add-to-cart');
+        const cartCountElement = document.getElementById('cart-count');
+        const cartNotification = document.getElementById('cart-notification');
+        
+        cartButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const card = button.closest('.perfume-card');
+                const id = card.getAttribute('data-id');
+                const title = card.querySelector('.perfume-title').textContent;
+                const price = card.querySelector('.perfume-price').textContent.split(' ')[0];
+                const brand = card.querySelector('.perfume-brand').textContent;
+                
+                // In a real app, you would add this to your cart data structure
+                console.log(`Added to cart: ${brand} ${title} ($${price})`);
+                
+                // Update cart count
+                cartCount++;
+                cartCountElement.textContent = cartCount;
+                
+                // Show notification
+                cartNotification.textContent = `${brand} ${title} added to cart!`;
+                cartNotification.classList.add('show');
+                setTimeout(() => {
+                    cartNotification.classList.remove('show');
+                }, 3000);
+            });
+        });
+        
+        // Like Functionality
+        let likedItems = 0;
+        const likeButtons = document.querySelectorAll('.like-btn');
+        const wishlistCount = document.getElementById('wishlist-count');
+        const likeNotification = document.getElementById('like-notification');
+        
+        likeButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const icon = button.querySelector('i');
+                const id = button.getAttribute('data-id');
+                const card = button.closest('.perfume-card');
+                const title = card.querySelector('.perfume-title').textContent;
+                const brand = card.querySelector('.perfume-brand').textContent;
+                
+                // Toggle liked state
+                button.classList.toggle('liked');
+                
+                if (button.classList.contains('liked')) {
+                    // Add to wishlist
+                    likedItems++;
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    
+                    // Show notification
+                    likeNotification.textContent = `${brand} ${title} added to wishlist!`;
+                    likeNotification.classList.add('show');
+                    setTimeout(() => {
+                        likeNotification.classList.remove('show');
+                    }, 3000);
+                } else {
+                    // Remove from wishlist
+                    likedItems--;
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    
+                    // Show notification
+                    likeNotification.textContent = `${brand} ${title} removed from wishlist!`;
+                    likeNotification.classList.add('show');
+                    setTimeout(() => {
+                        likeNotification.classList.remove('show');
+                    }, 3000);
+                }
+                
+                // Update wishlist count
+                wishlistCount.textContent = likedItems;
+                
+                // In a real app, you would update your wishlist data structure
+                console.log(`Perfume ${id} ${button.classList.contains('liked') ? 'added to' : 'removed from'} wishlist`);
+            });
+        });
+    </script>
+</body>
+</html>

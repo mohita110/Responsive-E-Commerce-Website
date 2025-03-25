@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase - Store Locator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #9c6f44;
+            --secondary: #f8f3ee;
+            --dark: #2d3436;
+            --light: #fefbf8;
+            --accent: #e17055;
+            --text: #3e2723;
+            --text-light: #7b6c63;
+            --highlight: #fab1a0;
+            --cta: #e67e22;
+            --success: #27ae60;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background-color: var(--light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .store-hero {
+            background: linear-gradient(rgba(156, 111, 68, 0.8), rgba(156, 111, 68, 0.8)), 
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') 
+                        no-repeat center center/cover;
+            height: 40vh;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .store-hero-content {
+            max-width: 800px;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .store-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .store-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 60px 0 40px;
+        }
+        
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .section-title p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .store-locator {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .store-search {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .store-map {
+            flex: 2;
+            min-width: 300px;
+            height: 500px;
+            background-color: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .search-box {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .search-box h3 {
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .search-form {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .search-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .search-btn:hover {
+            background-color: var(--dark);
+        }
+        
+        .store-list {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .store-item {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .store-item:last-child {
+            border-bottom: none;
+        }
+        
+        .store-item:hover {
+            background-color: var(--secondary);
+        }
+        
+        .store-item h3 {
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .store-address {
+            color: var(--text-light);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .store-hours {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+        
+        .store-hours i {
+            color: var(--primary);
+        }
+        
+        .store-phone {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+        
+        .store-phone i {
+            color: var(--primary);
+        }
+        
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: var(--text-light);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .btn:hover {
+            background-color: var(--dark);
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .store-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .store-locator {
+                flex-direction: column;
+            }
+            
+            .store-map {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .store-hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .search-btn {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--primary); text-decoration: none; font-weight: 700;">ShopEase</a>
+                <!-- Other navigation elements would go here -->
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Store Hero Section -->
+    <section class="store-hero">
+        <div class="store-hero-content">
+            <h1>Find a Store Near You</h1>
+            <p>Visit our physical locations to experience ShopEase in person</p>
+        </div>
+    </section>
+    
+    <!-- Store Locator Section -->
+    <section class="store-locator-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Store Locations</h2>
+                <p>Find the nearest ShopEase store to you</p>
+            </div>
+            
+            <div class="store-locator">
+                <div class="store-search">
+                    <div class="search-box">
+                        <h3>Search Stores</h3>
+                        <form class="search-form">
+                            <input type="text" class="search-input" placeholder="Enter city, state or zip code">
+                            <button type="submit" class="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="store-list">
+                        <!-- Store 1 -->
+                        <div class="store-item" data-lat="40.7128" data-lng="-74.0060">
+                            <h3>ShopEase New York</h3>
+                            <p class="store-address">123 Fashion Avenue, New York, NY 10001</p>
+                            <div class="store-hours">
+                                <i class="far fa-clock"></i>
+                                <span>Mon-Sat: 9:00 AM - 9:00 PM | Sun: 10:00 AM - 7:00 PM</span>
+                            </div>
+                            <div class="store-phone">
+                                <i class="fas fa-phone"></i>
+                                <span>(212) 555-1234</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Store 2 -->
+                        <div class="store-item" data-lat="34.0522" data-lng="-118.2437">
+                            <h3>ShopEase Los Angeles</h3>
+                            <p class="store-address">456 Style Boulevard, Los Angeles, CA 90015</p>
+                            <div class="store-hours">
+                                <i class="far fa-clock"></i>
+                                <span>Mon-Sat: 10:00 AM - 10:00 PM | Sun: 11:00 AM - 8:00 PM</span>
+                            </div>
+                            <div class="store-phone">
+                                <i class="fas fa-phone"></i>
+                                <span>(213) 555-5678</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Store 3 -->
+                        <div class="store-item" data-lat="41.8781" data-lng="-87.6298">
+                            <h3>ShopEase Chicago</h3>
+                            <p class="store-address">789 Trend Street, Chicago, IL 60601</p>
+                            <div class="store-hours">
+                                <i class="far fa-clock"></i>
+                                <span>Mon-Fri: 9:00 AM - 8:00 PM | Sat-Sun: 10:00 AM - 7:00 PM</span>
+                            </div>
+                            <div class="store-phone">
+                                <i class="fas fa-phone"></i>
+                                <span>(312) 555-9012</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Store 4 -->
+                        <div class="store-item" data-lat="29.7604" data-lng="-95.3698">
+                            <h3>ShopEase Houston</h3>
+                            <p class="store-address">101 Design Lane, Houston, TX 77002</p>
+                            <div class="store-hours">
+                                <i class="far fa-clock"></i>
+                                <span>Mon-Sat: 9:00 AM - 9:00 PM | Sun: 12:00 PM - 6:00 PM</span>
+                            </div>
+                            <div class="store-phone">
+                                <i class="fas fa-phone"></i>
+                                <span>(713) 555-3456</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Store 5 -->
+                        <div class="store-item" data-lat="39.9526" data-lng="-75.1652">
+                            <h3>ShopEase Philadelphia</h3>
+                            <p class="store-address">202 Retail Road, Philadelphia, PA 19102</p>
+                            <div class="store-hours">
+                                <i class="far fa-clock"></i>
+                                <span>Mon-Sat: 9:00 AM - 8:00 PM | Sun: 11:00 AM - 6:00 PM</span>
+                            </div>
+                            <div class="store-phone">
+                                <i class="fas fa-phone"></i>
+                                <span>(215) 555-7890</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="store-map">
+                    <div class="map-placeholder">
+                        <div>
+                            <i class="fas fa-map-marker-alt" style="font-size: 3rem; margin-bottom: 15px; color: var(--primary);"></i>
+                            <p>Store locations will appear on the map</p>
+                            <p><small>(In a real implementation, this would be a Google Maps integration)</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 ShopEase. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const storeItems = document.querySelectorAll('.store-item');
+            
+            // In a real implementation, this would initialize a Google Map
+            // and add markers for each store location
+            
+            storeItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all items
+                    storeItems.forEach(i => i.style.backgroundColor = 'white');
+                    
+                    // Add active class to clicked item
+                    this.style.backgroundColor = 'var(--secondary)';
+                    
+                    // In a real implementation, this would center the map
+                    // on the selected store's location
+                    const lat = this.getAttribute('data-lat');
+                    const lng = this.getAttribute('data-lng');
+                    console.log(`Center map on: ${lat}, ${lng}`);
+                });
+            });
+            
+            // Search functionality
+            const searchForm = document.querySelector('.search-form');
+            const searchInput = document.querySelector('.search-input');
+            
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                storeItems.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

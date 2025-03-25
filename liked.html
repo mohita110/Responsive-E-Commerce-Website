@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase - Your Wishlist</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #9c6f44;
+            --secondary: #f8f3ee;
+            --dark: #2d3436;
+            --light: #fefbf8;
+            --accent: #e17055;
+            --text: #3e2723;
+            --text-light: #7b6c63;
+            --highlight: #fab1a0;
+            --cta: #e67e22;
+            --success: #27ae60;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background-color: var(--light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .wishlist-hero {
+            background: linear-gradient(rgba(156, 111, 68, 0.8), rgba(156, 111, 68, 0.8)), 
+                        url('https://images.unsplash.com/photo-1516762689617-e1cffcef479d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1511&q=80') 
+                        no-repeat center center/cover;
+            height: 40vh;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .wishlist-hero-content {
+            max-width: 800px;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .wishlist-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .wishlist-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 60px 0 40px;
+        }
+        
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .section-title p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .product-img-container {
+            position: relative;
+            overflow: hidden;
+            height: 300px;
+        }
+        
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .product-card:hover .product-img {
+            transform: scale(1.03);
+        }
+        
+        .product-actions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+        }
+        
+        .product-card:hover .product-actions {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .product-action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: white;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .product-action-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .product-details {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .product-category {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .rating {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .rating span {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+        
+        .product-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .product-price {
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .product-price del {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-left: 5px;
+            font-weight: 400;
+        }
+        
+        .add-to-cart {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .add-to-cart:hover {
+            background-color: var(--dark);
+        }
+        
+        .empty-wishlist {
+            text-align: center;
+            padding: 80px 0;
+            grid-column: 1 / -1;
+        }
+        
+        .empty-wishlist i {
+            font-size: 5rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            opacity: 0.7;
+        }
+        
+        .empty-wishlist h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .empty-wishlist p {
+            max-width: 500px;
+            margin: 0 auto 30px;
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .btn:hover {
+            background-color: var(--dark);
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .wishlist-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .wishlist-hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .product-img-container {
+                height: 250px;
+            }
+        }
+
+        /* Animation for removing items */
+        .remove-animation {
+            animation: fadeOut 0.3s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                height: 0;
+                padding: 0;
+                margin: 0;
+                transform: scale(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--primary); text-decoration: none; font-weight: 700;">ShopEase</a>
+                <!-- Other navigation elements would go here -->
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Wishlist Hero Section -->
+    <section class="wishlist-hero">
+        <div class="wishlist-hero-content">
+            <h1>Your Wishlist</h1>
+            <p>All your favorite items in one place</p>
+        </div>
+    </section>
+    
+    <!-- Wishlist Products -->
+    <section class="featured-products">
+        <div class="container">
+            <div class="section-title">
+                <h2 id="wishlist-count">Saved Items (3)</h2>
+                <p>Your loved products</p>
+            </div>
+            
+            <div class="product-grid" id="wishlist-container">
+                <!-- Product 1 -->
+                <div class="product-card" data-id="1">
+                    <div class="product-badge">New</div>
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=736&q=80" alt="Casual Denim Jacket" class="product-img">
+                        <div class="product-actions">
+                            <button class="product-action-btn like-btn" data-id="1" style="opacity: 1; transform: translateY(0); color: var(--accent);">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="product-action-btn"><i class="fas fa-search"></i></button>
+                            <button class="product-action-btn"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">Casual Denim Jacket</h3>
+                        <p class="product-category">Jackets</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(24)</span>
+                        </div>
+                        <div class="product-bottom">
+                            <div class="product-price">$89.99 <del>$129.99</del></div>
+                            <button class="add-to-cart">
+                                <i class="fas fa-shopping-bag"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card" data-id="2">
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80" alt="White Sneakers" class="product-img">
+                        <div class="product-actions">
+                            <button class="product-action-btn like-btn" data-id="2" style="opacity: 1; transform: translateY(0); color: var(--accent);">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="product-action-btn"><i class="fas fa-search"></i></button>
+                            <button class="product-action-btn"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">White Sneakers</h3>
+                        <p class="product-category">Footwear</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(42)</span>
+                        </div>
+                        <div class="product-bottom">
+                            <div class="product-price">$129.99</div>
+                            <button class="add-to-cart">
+                                <i class="fas fa-shopping-bag"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card" data-id="3">
+                    <div class="product-badge">Sale</div>
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1026&q=80" alt="Leather Crossbody Bag" class="product-img">
+                        <div class="product-actions">
+                            <button class="product-action-btn like-btn" data-id="3" style="opacity: 1; transform: translateY(0); color: var(--accent);">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="product-action-btn"><i class="fas fa-search"></i></button>
+                            <button class="product-action-btn"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">Leather Crossbody Bag</h3>
+                        <p class="product-category">Accessories</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(18)</span>
+                        </div>
+                        <div class="product-bottom">
+                            <div class="product-price">$79.99 <del>$99.99</del></div>
+                            <button class="add-to-cart">
+                                <i class="fas fa-shopping-bag"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Empty State (initially hidden) -->
+                <div class="empty-wishlist" id="empty-wishlist" style="display: none;">
+                    <i class="far fa-heart"></i>
+                    <h2>Your Wishlist is Empty</h2>
+                    <p>You haven't saved any items yet. Start shopping and add your favorites here!</p>
+                    <a href="index.html" class="btn">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 ShopEase. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const wishlistContainer = document.getElementById('wishlist-container');
+            const emptyWishlist = document.getElementById('empty-wishlist');
+            const wishlistCount = document.getElementById('wishlist-count');
+            const likeButtons = document.querySelectorAll('.like-btn');
+            const productCards = document.querySelectorAll('.product-card');
+            
+            // Initialize wishlist count
+            let currentCount = productCards.length;
+            updateWishlistCount();
+            
+            // Add event listeners to all like buttons
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+                    const productCard = document.querySelector(`.product-card[data-id="${productId}"]`);
+                    
+                    // Add removal animation
+                    productCard.classList.add('remove-animation');
+                    
+                    // Remove the product after animation completes
+                    setTimeout(() => {
+                        productCard.remove();
+                        currentCount--;
+                        updateWishlistCount();
+                        
+                        // Show empty state if no products left
+                        if (currentCount === 0) {
+                            emptyWishlist.style.display = 'block';
+                        }
+                    }, 300);
+                });
+            });
+            
+            function updateWishlistCount() {
+                wishlistCount.textContent = `Saved Items (${currentCount})`;
+            }
+            
+            // Check if wishlist is empty on page load
+            if (currentCount === 0) {
+                emptyWishlist.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

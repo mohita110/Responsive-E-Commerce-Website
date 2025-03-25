@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase - Track Your Order</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #9c6f44;
+            --secondary: #f8f3ee;
+            --dark: #2d3436;
+            --light: #fefbf8;
+            --accent: #e17055;
+            --text: #3e2723;
+            --text-light: #7b6c63;
+            --highlight: #fab1a0;
+            --cta: #e67e22;
+            --success: #27ae60;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background-color: var(--light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .track-hero {
+            background: linear-gradient(rgba(156, 111, 68, 0.8), rgba(156, 111, 68, 0.8)), 
+                        url('https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') 
+                        no-repeat center center/cover;
+            height: 40vh;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .track-hero-content {
+            max-width: 800px;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .track-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .track-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 60px 0 40px;
+        }
+        
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .section-title p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .track-order-form {
+            max-width: 600px;
+            margin: 0 auto 60px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(156, 111, 68, 0.2);
+        }
+        
+        .track-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+        
+        .track-btn:hover {
+            background-color: var(--dark);
+        }
+        
+        .order-status {
+            max-width: 800px;
+            margin: 0 auto 60px;
+            display: none;
+        }
+        
+        .status-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .status-header h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .order-number {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .status-timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .status-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50px;
+            height: 100%;
+            width: 2px;
+            background-color: #ddd;
+        }
+        
+        .status-step {
+            display: flex;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .status-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .status-icon.active {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .status-icon.current {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .status-content {
+            flex: 1;
+            padding-top: 5px;
+        }
+        
+        .status-content h4 {
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .status-content p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .status-date {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+        
+        .order-details {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 60px;
+        }
+        
+        .order-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .order-summary-item {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .order-summary-item h4 {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .order-summary-item p {
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .order-products {
+            margin-top: 30px;
+        }
+        
+        .order-products h3 {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .product-row {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .product-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 20px;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            flex: 1;
+        }
+        
+        .product-info h4 {
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .product-meta {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .product-price {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .btn:hover {
+            background-color: var(--dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .track-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .status-timeline::before {
+                left: 20px;
+            }
+            
+            .status-icon {
+                width: 30px;
+                height: 30px;
+                margin-right: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .track-hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .order-summary {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .product-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .product-image {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--primary); text-decoration: none; font-weight: 700;">ShopEase</a>
+                <!-- Other navigation elements would go here -->
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Track Hero Section -->
+    <section class="track-hero">
+        <div class="track-hero-content">
+            <h1>Track Your Order</h1>
+            <p>Check the status of your recent ShopEase orders</p>
+        </div>
+    </section>
+    
+    <!-- Track Order Form -->
+    <section class="track-order-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Order Tracking</h2>
+                <p>Enter your order details to check status</p>
+            </div>
+            
+            <div class="track-order-form">
+                <form id="tracking-form">
+                    <div class="form-group">
+                        <label for="order-id">Order Number</label>
+                        <input type="text" id="order-id" class="form-control" placeholder="e.g. SHOPEASE12345" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="your@email.com" required>
+                    </div>
+                    <button type="submit" class="track-btn">
+                        <i class="fas fa-search"></i> Track Order
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Order Status (hidden by default) -->
+            <div class="order-status" id="order-status">
+                <div class="status-header">
+                    <h3>Your Order Status</h3>
+                    <p>Order #<span class="order-number" id="display-order-id">SHOPEASE12345</span></p>
+                </div>
+                
+                <div class="status-timeline">
+                    <!-- Step 1 -->
+                    <div class="status-step">
+                        <div class="status-icon active">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="status-content">
+                            <h4>Order Placed</h4>
+                            <p>We've received your order</p>
+                            <div class="status-date">June 12, 2023 - 10:30 AM</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="status-step">
+                        <div class="status-icon active">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="status-content">
+                            <h4>Order Processed</h4>
+                            <p>We're preparing your order</p>
+                            <div class="status-date">June 12, 2023 - 11:45 AM</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="status-step">
+                        <div class="status-icon current">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="status-content">
+                            <h4>Shipped</h4>
+                            <p>Your order is on the way</p>
+                            <div class="status-date">June 13, 2023 - 9:15 AM</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="status-step">
+                        <div class="status-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="status-content">
+                            <h4>Delivered</h4>
+                            <p>Estimated delivery: June 15, 2023</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-details">
+                    <div class="order-summary">
+                        <div class="order-summary-item">
+                            <h4>Order Date</h4>
+                            <p>June 12, 2023</p>
+                        </div>
+                        <div class="order-summary-item">
+                            <h4>Order Total</h4>
+                            <p>$189.97</p>
+                        </div>
+                        <div class="order-summary-item">
+                            <h4>Shipping Address</h4>
+                            <p>123 Main St, Apt 4B<br>New York, NY 10001</p>
+                        </div>
+                        <div class="order-summary-item">
+                            <h4>Payment Method</h4>
+                            <p>Visa ending in 4242</p>
+                        </div>
+                    </div>
+                    
+                    <div class="order-products">
+                        <h3>Order Items</h3>
+                        
+                        <!-- Product 1 -->
+                        <div class="product-row">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=736&q=80" alt="Denim Jacket">
+                            </div>
+                            <div class="product-info">
+                                <h4>Casual Denim Jacket</h4>
+                                <p class="product-meta">Size: M | Color: Blue | Qty: 1</p>
+                            </div>
+                            <div class="product-price">$89.99</div>
+                        </div>
+                        
+                        <!-- Product 2 -->
+                        <div class="product-row">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80" alt="White Sneakers">
+                            </div>
+                            <div class="product-info">
+                                <h4>White Sneakers</h4>
+                                <p class="product-meta">Size: 10 | Color: White | Qty: 1</p>
+                            </div>
+                            <div class="product-price">$99.98</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <a href="#" class="btn btn-outline">
+                        <i class="fas fa-print"></i> Print Order Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 ShopEase. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const trackingForm = document.getElementById('tracking-form');
+            const orderStatus = document.getElementById('order-status');
+            const displayOrderId = document.getElementById('display-order-id');
+            
+            trackingForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const orderId = document.getElementById('order-id').value;
+                const email = document.getElementById('email').value;
+                
+                // In a real implementation, you would validate these
+                // and fetch the order status from your backend
+                
+                // For demo purposes, we'll just show the status
+                displayOrderId.textContent = orderId;
+                orderStatus.style.display = 'block';
+                
+                // Scroll to the order status section
+                orderStatus.scrollIntoView({ behavior: 'smooth' });
+                
+                console.log(`Tracking order #${orderId} for email ${email}`);
+            });
+        });
+    </script>
+</body>
+</html>

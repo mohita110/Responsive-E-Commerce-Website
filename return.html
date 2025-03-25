@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Returns Policy | ShopEase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Color Palette - Brightened */
+        :root {
+            --primary: #9c6f44;       /* Warm caramel */
+            --secondary: #f8f3ee;     /* Soft ivory */
+            --dark: #2d3436;         /* Charcoal */
+            --light: #fefbf8;        /* Bright white */
+            --accent: #e17055;       /* Coral */
+            --text: #3e2723;         /* Dark brown */
+            --text-light: #7b6c63;   /* Warm gray */
+            --highlight: #fab1a0;    /* Soft peach */
+            --cta: #e67e22;         /* Bright orange */
+            --success: #27ae60;     /* Emerald green */
+        }
+        
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: var(--cta);
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .btn:hover {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--cta);
+        }
+        
+        .section-title {
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            max-width: 700px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .top-bar {
+            background-color: var(--dark);
+            padding: 10px 0;
+            font-size: 0.85rem;
+            color: var(--secondary);
+        }
+        
+        .top-bar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .contact-info a {
+            margin-right: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+        
+        .contact-info a:hover {
+            color: var(--highlight);
+        }
+        
+        .top-bar-links a {
+            margin-left: 15px;
+            transition: color 0.3s;
+        }
+        
+        .top-bar-links a:hover {
+            color: var(--highlight);
+        }
+        
+        .main-header {
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .search-bar {
+            flex-grow: 1;
+            margin: 0 40px;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 12px 25px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 50px;
+            font-size: 1rem;
+            background-color: rgba(0,0,0,0.03);
+            transition: all 0.3s;
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(156, 111, 68, 0.2);
+        }
+        
+        .search-bar button {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .header-icon {
+            position: relative;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+            color: var(--dark);
+        }
+        
+        .header-icon:hover {
+            color: var(--primary);
+        }
+        
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: var(--dark);
+            color: var(--secondary);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .categories-menu {
+            position: relative;
+            padding: 18px 30px;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .main-menu {
+            display: flex;
+        }
+        
+        .main-menu li {
+            list-style: none;
+            position: relative;
+        }
+        
+        .main-menu li a {
+            display: block;
+            padding: 18px 25px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            color: var(--secondary);
+        }
+        
+        .main-menu li a:hover {
+            color: white;
+        }
+        
+        .main-menu li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25px;
+            width: 0;
+            height: 3px;
+            background-color: var(--highlight);
+            transition: width 0.3s;
+        }
+        
+        .main-menu li a:hover::after {
+            width: calc(100% - 50px);
+        }
+        
+        /* Policy Content */
+        .policy-hero {
+            background: linear-gradient(rgba(45, 52, 54, 0.7), rgba(45, 52, 54, 0.7)), url('https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80') no-repeat center center/cover;
+            padding: 120px 0;
+            color: white;
+            text-align: center;
+        }
+        
+        .policy-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .policy-hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .policy-content {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .policy-section {
+            margin-bottom: 60px;
+        }
+        
+        .policy-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .policy-section p {
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+        
+        .policy-section ul {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+        
+        .policy-section li {
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        
+        .policy-highlight {
+            background-color: var(--secondary);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 40px 0;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .policy-highlight h4 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--secondary);
+            padding: 80px 0 0;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+        }
+        
+        .footer-logo {
+            margin-bottom: 25px;
+        }
+        
+        .footer-logo h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-about p {
+            opacity: 0.8;
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            color: var(--secondary);
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-5px);
+        }
+        
+        .footer-links h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+            color: white;
+        }
+        
+        .footer-links h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            opacity: 0.8;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .footer-contact li {
+            display: flex;
+            margin-bottom: 20px;
+            align-items: flex-start;
+            opacity: 0.8;
+        }
+        
+        .footer-contact .icon {
+            margin-right: 15px;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-top: 3px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 80px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .main-header {
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                width: 100%;
+                margin: 20px 0 0;
+            }
+            
+            .policy-hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .top-bar {
+                display: none;
+            }
+            
+            .categories-menu {
+                display: none;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .main-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .policy-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .policy-hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .policy-hero {
+                padding: 80px 0;
+            }
+            
+            .policy-hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 0.8rem;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-content">
+                    <div class="contact-info">
+                        <a href="tel:+1234567890"><i class="fas fa-phone"></i> +123 456 7890</a>
+                        <a href="mailto:info@ShopEase.com"><i class="fas fa-envelope"></i> info@ShopEase.com</a>
+                    </div>
+                    <div class="top-bar-links">
+                        <a href="store.html"><i class="fas fa-map-marker-alt"></i> Store Locator</a>
+                        <a href="track.html"><i class="fas fa-truck"></i> Track Order</a>
+                        <a href="login.html"><i class="fas fa-user"></i> Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="main-header">
+                <div class="logo">
+                    <a href="index.html">
+                        <h1>ShopEase</h1>
+                    </a>
+                </div>
+                
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for products...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div class="header-icons">
+                    <a href="liked.html" class="header-icon">
+                        <i class="far fa-heart"></i>
+                        <span class="badge">2</span>
+                    </a>
+                    <a href="cart.html" class="header-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="badge">3</span>
+                    </a>
+                    <a href="#" class="header-icon">
+                        <i class="far fa-user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <nav>
+            <div class="container nav-container">
+                <div class="categories-menu">
+                    <i class="fas fa-bars"></i>
+                    <span>ALL CATEGORIES</span>
+                </div>
+                
+                <ul class="main-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="clothing.html">Clothing</a></li>
+                    <li><a href="footwear.html">Footwear</a></li>
+                    <li><a href="watches.html">Watches</a></li>
+                    <li><a href="cosmetics.html">Cosmetics</a></li>
+                    <li><a href="perfumes.html">Perfumes</a></li>
+                    <li><a href="sale.html">Sale</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Policy Hero -->
+    <section class="policy-hero">
+        <div class="container">
+            <h1>Easy Returns Policy</h1>
+            <p>We want you to love your purchase. If you don't, we offer hassle-free returns within 30 days.</p>
+        </div>
+    </section>
+    
+    <!-- Policy Content -->
+    <section class="policy-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Returns Policy</h2>
+                <p>Shop with confidence knowing we make returns easy and convenient</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>30-Day Return Policy</h3>
+                <p>We accept returns within 30 days of the original purchase date for most items in new, unused condition with original tags and packaging. Some items may have different return policies as noted on the product page.</p>
+                
+                <div class="policy-highlight">
+                    <h4>How to Initiate a Return</h4>
+                    <ol>
+                        <li>Log in to your account and go to "Order History"</li>
+                        <li>Select the item(s) you wish to return</li>
+                        <li>Print the prepaid return label</li>
+                        <li>Package the item securely with the original packaging</li>
+                        <li>Drop off at any UPS location</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="policy-section">
+                <h3>Return Conditions</h3>
+                <p>To be eligible for a return, your item must meet the following conditions:</p>
+                <ul>
+                    <li>Item must be unused and in the same condition as received</li>
+                    <li>Original tags must be attached</li>
+                    <li>Item must be in original packaging with all accessories included</li>
+                    <li>Proof of purchase or order number is required</li>
+                </ul>
+                <p>Final sale items, undergarments, swimwear, and personalized items are not eligible for return unless defective.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>Refund Process</h3>
+                <p>Once your return is received and inspected, we will send you an email to notify you that we have received your returned item. We will also notify you of the approval or rejection of your refund.</p>
+                <p>If approved, your refund will be processed to the original method of payment within 5-10 business days. Depending on your bank or credit card company, it may take additional time for the refund to appear on your statement.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>Exchanges</h3>
+                <p>We currently do not offer direct exchanges. If you need a different size or color, please return the original item for a refund and place a new order for the item you want.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>Return Shipping</h3>
+                <p>We provide a prepaid return shipping label for domestic returns. International customers are responsible for return shipping costs unless the return is due to our error (wrong item shipped, defective item, etc.).</p>
+                <p>Original shipping charges are non-refundable unless the return is a result of our error.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>Damaged or Defective Items</h3>
+                <p>If you receive a damaged or defective item, please contact our customer service team within 7 days of delivery. We will provide a prepaid return label and either replace the item or issue a full refund, including original shipping charges.</p>
+            </div>
+            
+            <div class="policy-section">
+                <h3>In-Store Returns</h3>
+                <p>Items purchased online can be returned to any of our retail locations. Please bring your order confirmation email or packing slip and the original payment method used for the purchase.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <h2>ShopEase</h2>
+                    </div>
+                    <p>ShopEase is your premier destination for luxury fashion and beauty. We offer carefully curated collections from top designers around the world.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Shop</a></li>
+                        <li><a href="blog.html"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> My Account</a></li>
+                        <li><a href="track.html"><i class="fas fa-chevron-right"></i> Order Tracking</a></li>
+                        <li><a href="liked.html"><i class="fas fa-chevron-right"></i> Wishlist</a></li>
+                        <li><a href="shipping.html"><i class="fas fa-chevron-right"></i> Shipping Policy</a></li>
+                        <li><a href="return.html"><i class="fas fa-chevron-right"></i> Returns & Exchanges</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li>
+                            <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
+                            <span>123 Fashion Avenue, New York, NY 10001, USA</span>
+                        </li>
+                        <li>
+                            <span class="icon"><i class="fas fa-phone"></i></span>
+                            <span>+1 (555) 123-4567</span>
+                        </li>
+                        <li>
+                            <span class="icon"><i class="fas fa-envelope"></i></span>
+                            <span>info@ShopEase.com</span>
+                        </li>
+                        <li>
+                            <span class="icon"><i class="fas fa-clock"></i></span>
+                            <span>Mon-Fri: 9AM - 6PM<br>Sat: 10AM - 4PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 ShopEase. All Rights Reserved. Designed with <i class="fas fa-heart" style="color: var(--accent);"></i> by ShopEase Team</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
