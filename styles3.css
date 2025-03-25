@@ -1,0 +1,361 @@
+/* Modern Color Palette - Brightened */
+:root {
+    --primary: #9c6f44;       /* Warm caramel */
+    --secondary: #f8f3ee;     /* Soft ivory */
+    --dark: #2d3436;         /* Charcoal */
+    --light: #fefbf8;        /* Bright white */
+    --accent: #e17055;       /* Coral */
+    --text: #3e2723;         /* Dark brown */
+    --text-light: #7b6c63;   /* Warm gray */
+    --highlight: #fab1a0;    /* Soft peach */
+    --cta: #e67e22;         /* Bright orange */
+    --success: #27ae60;     /* Emerald green */
+    --danger: #e74c3c;      /* Red for liked items */
+}
+
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    color: var(--text);
+    background-color: var(--light);
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.container {
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Header Styles (Same as before) */
+header {
+    background-color: white;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.main-header {
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+}
+
+.logo h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+}
+
+.header-icons {
+    display: flex;
+    gap: 25px;
+}
+
+.header-icon {
+    position: relative;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+    color: var(--dark);
+}
+
+.badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--accent);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* Navigation */
+nav {
+    background-color: var(--dark);
+    color: var(--secondary);
+}
+
+.main-menu {
+    display: flex;
+    justify-content: center;
+}
+
+.main-menu li {
+    list-style: none;
+    position: relative;
+}
+
+.main-menu li a {
+    display: block;
+    padding: 18px 25px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+    color: var(--secondary);
+}
+
+/* Footwear Page Specific Styles */
+.footwear-header {
+    background: linear-gradient(rgba(45, 52, 54, 0.7), rgba(45, 52, 54, 0.7)), url('https://images.unsplash.com/photo-1460353581641-37baddab0fa2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80') no-repeat center center/cover;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    margin-bottom: 50px;
+}
+
+.footwear-header h1 {
+    font-size: 4rem;
+    font-weight: 700;
+}
+
+.gender-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+    border-bottom: 1px solid #ddd;
+}
+
+.gender-tab {
+    padding: 15px 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    border-bottom: 3px solid transparent;
+}
+
+.gender-tab.active {
+    border-bottom: 3px solid var(--accent);
+    color: var(--primary);
+}
+
+.gender-tab:hover {
+    color: var(--primary);
+}
+
+.gender-content {
+    display: none;
+}
+
+.gender-content.active {
+    display: block;
+}
+
+.footwear-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 80px;
+}
+
+.footwear-card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    border: 1px solid var(--secondary);
+}
+
+.footwear-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    border-color: var(--highlight);
+}
+
+.footwear-img-container {
+    height: 350px;
+    overflow: hidden;
+    position: relative;
+}
+
+.footwear-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.footwear-card:hover .footwear-img {
+    transform: scale(1.05);
+}
+
+/* Like button */
+.like-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    color: var(--dark);
+    cursor: pointer;
+    z-index: 2;
+}
+
+.like-btn:hover {
+    color: var(--danger);
+}
+
+.like-btn.liked {
+    color: var(--danger);
+}
+
+.footwear-details {
+    padding: 20px;
+}
+
+.footwear-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    color: var(--dark);
+}
+
+.footwear-category {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+}
+
+.footwear-price {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--dark);
+    margin-top: 15px;
+}
+
+.footwear-price del {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-left: 5px;
+}
+
+.add-to-cart {
+    background-color: var(--cta);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.add-to-cart:hover {
+    background-color: var(--accent);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Cart Notification */
+.cart-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--success);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+.cart-notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Like Notification */
+.like-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: var(--danger);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+.like-notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .footwear-header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .gender-tabs {
+        flex-direction: column;
+        align-items: center;
+        border-bottom: none;
+    }
+    
+    .gender-tab {
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+}
